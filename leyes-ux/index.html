@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tablero de Leyes UX — Central de Pasajes</title>
+  <meta
+    name="description"
+    content="Evaluación de Central de Pasajes (centraldepasajes.com.ar) contra 14 leyes y principios de UX, organizados en 5 categorías."
+  />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <span class="site-header__eyebrow">Tablero de Leyes UX</span>
+      <h1>Evaluación de Central de Pasajes contra 14 leyes de UX</h1>
+      <p>
+        Este tablero documenta, ley por ley, cómo se comporta
+        <a href="https://centraldepasajes.com.ar" target="_blank" rel="noopener noreferrer">
+          Central de Pasajes (centraldepasajes.com.ar)
+        </a>
+        frente a 14 leyes y principios clásicos de UX, agrupados en 5 categorías. Cada ley
+        incluye una pregunta guía, una captura de pantalla del producto y un análisis breve
+        del hallazgo.
+      </p>
+      <div class="site-header__summary" id="resumen-estados"></div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav class="nav-categorias" aria-label="Categorías del tablero">
+      <h2>Categorías</h2>
+      <ul id="nav-categorias-lista"></ul>
+    </nav>
+
+    <main class="contenido" id="contenido-leyes"></main>
+  </div>
+
+  <footer class="site-footer">
+    Tablero de Leyes UX · Documento de evaluación de Central de Pasajes (centraldepasajes.com.ar)
+  </footer>
+
+  <script src="data/leyes.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

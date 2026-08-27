@@ -1,0 +1,429 @@
+:root {
+  --color-bg: #f5f6f8;
+  --color-surface: #ffffff;
+  --color-border: #e1e4e8;
+  --color-text: #1c1f24;
+  --color-text-muted: #5b6270;
+  --color-accent: #2f5bff;
+  --color-accent-dark: #1e3fc4;
+
+  --color-cumple-bg: #e4f7ec;
+  --color-cumple-text: #157347;
+  --color-cumple-dot: #2fb872;
+
+  --color-rompe-bg: #fdeaea;
+  --color-rompe-text: #b3261e;
+  --color-rompe-dot: #e5484d;
+
+  --color-pendiente-bg: #edeef1;
+  --color-pendiente-text: #5b6270;
+  --color-pendiente-dot: #9aa1ac;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  --sidebar-width: 260px;
+  --header-height: auto;
+
+  font-size: 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+}
+
+/* ---------- Header ---------- */
+
+.site-header {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: 1.5rem 1.5rem 1.25rem;
+}
+
+.site-header__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.site-header__eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  background: #eef1ff;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  margin-bottom: 0.75rem;
+}
+
+.site-header h1 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.site-header p {
+  margin: 0;
+  color: var(--color-text-muted);
+  max-width: 70ch;
+  font-size: 0.98rem;
+}
+
+.site-header p a {
+  color: var(--color-accent-dark);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.site-header p a:hover {
+  text-decoration: underline;
+}
+
+.site-header__summary {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.summary-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: var(--color-pendiente-bg);
+  color: var(--color-text);
+}
+
+.summary-pill__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-pendiente-dot);
+}
+
+.summary-pill[data-estado="cumple"] .summary-pill__dot { background: var(--color-cumple-dot); }
+.summary-pill[data-estado="rompe"] .summary-pill__dot { background: var(--color-rompe-dot); }
+
+/* ---------- Layout ---------- */
+
+.layout {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 1.5rem;
+}
+
+/* ---------- Nav lateral ---------- */
+
+.nav-categorias {
+  flex: 0 0 var(--sidebar-width);
+  position: sticky;
+  top: 1.5rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+}
+
+.nav-categorias h2 {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+  margin: 0.25rem 0.5rem 0.75rem;
+}
+
+.nav-categorias ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.nav-categorias a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.6rem 0.65rem;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s ease;
+}
+
+.nav-categorias a:hover,
+.nav-categorias a.is-active {
+  background: #eef1ff;
+  color: var(--color-accent-dark);
+}
+
+.nav-categorias .nav-count {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  background: var(--color-bg);
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+}
+
+/* ---------- Contenido ---------- */
+
+.contenido {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.categoria-seccion {
+  margin-bottom: 2.5rem;
+  scroll-margin-top: 1.5rem;
+}
+
+.categoria-seccion__header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.categoria-seccion__header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.categoria-seccion__header .categoria-index {
+  color: var(--color-text-muted);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.leyes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+
+/* ---------- Card de ley ---------- */
+
+.ley-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.ley-card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.ley-card__nombre {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.badge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.badge__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.badge[data-estado="cumple"] {
+  background: var(--color-cumple-bg);
+  color: var(--color-cumple-text);
+}
+.badge[data-estado="cumple"] .badge__dot { background: var(--color-cumple-dot); }
+
+.badge[data-estado="rompe"] {
+  background: var(--color-rompe-bg);
+  color: var(--color-rompe-text);
+}
+.badge[data-estado="rompe"] .badge__dot { background: var(--color-rompe-dot); }
+
+.badge[data-estado="pendiente"] {
+  background: var(--color-pendiente-bg);
+  color: var(--color-pendiente-text);
+}
+.badge[data-estado="pendiente"] .badge__dot { background: var(--color-pendiente-dot); }
+
+.ley-card__que-dice {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.ley-card__pregunta {
+  margin: 0;
+  font-size: 0.92rem;
+  background: var(--color-bg);
+  border-left: 3px solid var(--color-accent);
+  padding: 0.6rem 0.75rem;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.ley-card__pregunta strong {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-accent-dark);
+  margin-bottom: 0.2rem;
+}
+
+.ley-card__captura {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 140px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--color-bg);
+  border: 1px dashed var(--color-border);
+}
+
+.ley-card__captura img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ley-card__captura-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  text-align: center;
+  padding: 1rem;
+}
+
+.ley-card__captura-placeholder svg {
+  width: 28px;
+  height: 28px;
+  opacity: 0.5;
+}
+
+.ley-card__explicacion {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.ley-card__explicacion--vacia {
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.ley-card__explicacion strong {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  margin-bottom: 0.25rem;
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 860px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .nav-categorias {
+    position: static;
+    width: 100%;
+    flex: none;
+  }
+
+  .nav-categorias ul {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .nav-categorias a {
+    font-size: 0.82rem;
+    padding: 0.5rem 0.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-header {
+    padding: 1.25rem 1rem;
+  }
+
+  .layout {
+    padding: 1rem;
+    gap: 1.25rem;
+  }
+
+  .leyes-grid {
+    grid-template-columns: 1fr;
+  }
+}
