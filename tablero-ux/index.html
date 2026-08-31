@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tablero UX — Central de Pasajes</title>
+  <meta
+    name="description"
+    content="Evaluación de Central de Pasajes (centraldepasajes.com.ar) contra 14 leyes de UX y las 10 heurísticas de usabilidad de Nielsen."
+  />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <span class="site-header__eyebrow">Tablero UX</span>
+      <h1>Evaluación de Central de Pasajes</h1>
+      <p>
+        Este tablero documenta cómo se comporta
+        <a href="https://centraldepasajes.com.ar" target="_blank" rel="noopener noreferrer">
+          Central de Pasajes (centraldepasajes.com.ar)
+        </a>
+        frente a dos marcos clásicos de evaluación de UX: 14 leyes y principios de UX, y las 10
+        heurísticas de usabilidad de Nielsen. Cada hallazgo incluye una captura de pantalla y un
+        análisis breve.
+      </p>
+
+      <nav class="tabs" aria-label="Tableros">
+        <button class="tabs__btn" type="button" data-vista="leyes">Leyes UX</button>
+        <button class="tabs__btn" type="button" data-vista="heuristicas">Heurísticas de Nielsen</button>
+      </nav>
+
+      <div class="site-header__summary" id="resumen-leyes"></div>
+      <div class="site-header__summary" id="resumen-heuristicas" hidden></div>
+    </div>
+  </header>
+
+  <div class="layout" id="vista-leyes">
+    <nav class="nav-categorias" aria-label="Categorías del tablero de leyes UX">
+      <h2>Categorías</h2>
+      <ul id="nav-categorias-lista"></ul>
+    </nav>
+
+    <main class="contenido" id="contenido-leyes"></main>
+  </div>
+
+  <div class="layout layout--full" id="vista-heuristicas" hidden>
+    <main class="contenido" id="contenido-heuristicas"></main>
+  </div>
+
+  <footer class="site-footer">
+    Tablero UX · Evaluación de Central de Pasajes (centraldepasajes.com.ar) contra 14 leyes de UX
+    y 10 heurísticas de Nielsen
+  </footer>
+
+  <script src="data/leyes.js"></script>
+  <script src="data/heuristicas.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

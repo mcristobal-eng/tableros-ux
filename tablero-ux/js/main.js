@@ -7,6 +7,15 @@
     pendiente: "Pendiente"
   };
 
+  const SEVERIDAD_LABEL = {
+    pendiente: "Sin evaluar",
+    "0": "0 · Sin problema",
+    "1": "1 · Cosmético",
+    "2": "2 · Menor",
+    "3": "3 · Mayor",
+    "4": "4 · Catástrofe"
+  };
+
   function slugify(texto) {
     return texto
       .toLowerCase()
@@ -16,7 +25,11 @@
       .replace(/(^-|-$)/g, "");
   }
 
-  function crearBadge(estado) {
+  function claveSeveridad(severidad) {
+    return severidad === null || severidad === undefined ? "pendiente" : String(severidad);
+  }
+
+  function crearBadgeEstado(estado) {
     const badge = document.createElement("span");
     badge.className = "badge";
     badge.dataset.estado = estado;
@@ -29,14 +42,28 @@
     return badge;
   }
 
-  function crearCaptura(ley) {
+  function crearBadgeSeveridad(severidad) {
+    const clave = claveSeveridad(severidad);
+    const badge = document.createElement("span");
+    badge.className = "badge";
+    badge.dataset.severidad = clave;
+
+    const dot = document.createElement("span");
+    dot.className = "badge__dot";
+    badge.appendChild(dot);
+
+    badge.appendChild(document.createTextNode(SEVERIDAD_LABEL[clave]));
+    return badge;
+  }
+
+  function crearCaptura(capturaUrl, nombre) {
     const wrap = document.createElement("div");
     wrap.className = "ley-card__captura";
 
-    if (ley.capturaUrl) {
+    if (capturaUrl) {
       const img = document.createElement("img");
-      img.src = ley.capturaUrl;
-      img.alt = "Captura de pantalla: " + ley.nombre + " en Central de Pasajes";
+      img.src = capturaUrl;
+      img.alt = "Captura de pantalla: " + nombre + " en Central de Pasajes";
       img.loading = "lazy";
       wrap.appendChild(img);
     } else {
@@ -56,7 +83,24 @@
     return wrap;
   }
 
-  function crearCard(ley) {
+  function crearExplicacion(explicacion) {
+    const explicacionEl = document.createElement("div");
+    explicacionEl.className = "ley-card__explicacion";
+
+    if (explicacion) {
+      explicacionEl.innerHTML = "<strong>Análisis</strong>";
+      const texto = document.createElement("span");
+      texto.textContent = explicacion;
+      explicacionEl.appendChild(texto);
+    } else {
+      explicacionEl.classList.add("ley-card__explicacion--vacia");
+      explicacionEl.textContent = "Todavía sin analizar";
+    }
+
+    return explicacionEl;
+  }
+
+  function crearCardLey(ley) {
     const card = document.createElement("article");
     card.className = "ley-card";
     card.id = "ley-" + ley.id;
@@ -69,7 +113,7 @@
     nombre.textContent = ley.nombre;
 
     top.appendChild(nombre);
-    top.appendChild(crearBadge(ley.estado));
+    top.appendChild(crearBadgeEstado(ley.estado));
     card.appendChild(top);
 
     const queDice = document.createElement("p");
@@ -83,20 +127,35 @@
     pregunta.appendChild(document.createTextNode(ley.preguntaGuia));
     card.appendChild(pregunta);
 
-    card.appendChild(crearCaptura(ley));
+    card.appendChild(crearCaptura(ley.capturaUrl, ley.nombre));
+    card.appendChild(crearExplicacion(ley.explicacion));
 
-    const explicacion = document.createElement("div");
-    explicacion.className = "ley-card__explicacion";
-    if (ley.explicacion) {
-      explicacion.innerHTML = "<strong>Análisis</strong>";
-      const texto = document.createElement("span");
-      texto.textContent = ley.explicacion;
-      explicacion.appendChild(texto);
-    } else {
-      explicacion.classList.add("ley-card__explicacion--vacia");
-      explicacion.textContent = "Todavía sin analizar";
-    }
-    card.appendChild(explicacion);
+    return card;
+  }
+
+  function crearCardHeuristica(heuristica) {
+    const card = document.createElement("article");
+    card.className = "ley-card";
+    card.id = "heuristica-" + heuristica.id;
+
+    const top = document.createElement("div");
+    top.className = "ley-card__top";
+
+    const nombre = document.createElement("h3");
+    nombre.className = "ley-card__nombre";
+    nombre.textContent = heuristica.nombre;
+
+    top.appendChild(nombre);
+    top.appendChild(crearBadgeSeveridad(heuristica.severidad));
+    card.appendChild(top);
+
+    const definicion = document.createElement("p");
+    definicion.className = "ley-card__que-dice";
+    definicion.textContent = heuristica.definicion;
+    card.appendChild(definicion);
+
+    card.appendChild(crearCaptura(heuristica.capturaUrl, heuristica.nombre));
+    card.appendChild(crearExplicacion(heuristica.explicacion));
 
     return card;
   }
@@ -112,8 +171,8 @@
     return mapa;
   }
 
-  function renderResumen(leyes) {
-    const contenedor = document.getElementById("resumen-estados");
+  function renderResumenLeyes(leyes) {
+    const contenedor = document.getElementById("resumen-leyes");
     if (!contenedor) return;
 
     const conteo = { cumple: 0, rompe: 0, pendiente: 0 };
@@ -132,6 +191,32 @@
 
       pill.appendChild(
         document.createTextNode(`${conteo[estado] || 0} ${ESTADO_LABEL[estado]}`)
+      );
+      contenedor.appendChild(pill);
+    });
+  }
+
+  function renderResumenHeuristicas(heuristicas) {
+    const contenedor = document.getElementById("resumen-heuristicas");
+    if (!contenedor) return;
+
+    const conteo = { pendiente: 0, "0": 0, "1": 0, "2": 0, "3": 0, "4": 0 };
+    heuristicas.forEach((h) => {
+      const clave = claveSeveridad(h.severidad);
+      conteo[clave] += 1;
+    });
+
+    Object.keys(SEVERIDAD_LABEL).forEach((clave) => {
+      const pill = document.createElement("span");
+      pill.className = "summary-pill";
+      pill.dataset.severidad = clave;
+
+      const dot = document.createElement("span");
+      dot.className = "summary-pill__dot";
+      pill.appendChild(dot);
+
+      pill.appendChild(
+        document.createTextNode(`${conteo[clave] || 0} ${SEVERIDAD_LABEL[clave]}`)
       );
       contenedor.appendChild(pill);
     });
@@ -158,7 +243,7 @@
     });
   }
 
-  function renderContenido(categoriasOrdenadas, leyesPorCategoria) {
+  function renderContenidoLeyes(categoriasOrdenadas, leyesPorCategoria) {
     const contenedor = document.getElementById("contenido-leyes");
     if (!contenedor) return;
 
@@ -184,12 +269,22 @@
       seccion.appendChild(header);
 
       const grid = document.createElement("div");
-      grid.className = "leyes-grid";
-      leyes.forEach((ley) => grid.appendChild(crearCard(ley)));
+      grid.className = "tarjetas-grid";
+      leyes.forEach((ley) => grid.appendChild(crearCardLey(ley)));
       seccion.appendChild(grid);
 
       contenedor.appendChild(seccion);
     });
+  }
+
+  function renderContenidoHeuristicas(heuristicas) {
+    const contenedor = document.getElementById("contenido-heuristicas");
+    if (!contenedor) return;
+
+    const grid = document.createElement("div");
+    grid.className = "tarjetas-grid";
+    heuristicas.forEach((h) => grid.appendChild(crearCardHeuristica(h)));
+    contenedor.appendChild(grid);
   }
 
   function activarNavAlScroll(categoriasOrdenadas) {
@@ -215,18 +310,56 @@
     });
   }
 
+  function initTabs() {
+    const botones = Array.from(document.querySelectorAll(".tabs__btn"));
+    const paneles = {
+      leyes: document.getElementById("vista-leyes"),
+      heuristicas: document.getElementById("vista-heuristicas")
+    };
+    const resumenes = {
+      leyes: document.getElementById("resumen-leyes"),
+      heuristicas: document.getElementById("resumen-heuristicas")
+    };
+
+    function activar(vista) {
+      botones.forEach((btn) => {
+        btn.classList.toggle("is-active", btn.dataset.vista === vista);
+      });
+
+      Object.keys(paneles).forEach((clave) => {
+        if (paneles[clave]) paneles[clave].hidden = clave !== vista;
+        if (resumenes[clave]) resumenes[clave].hidden = clave !== vista;
+      });
+
+      history.replaceState(null, "", "#" + vista);
+    }
+
+    botones.forEach((btn) => {
+      btn.addEventListener("click", () => activar(btn.dataset.vista));
+    });
+
+    activar(location.hash === "#heuristicas" ? "heuristicas" : "leyes");
+  }
+
   function init() {
     if (typeof LEYES === "undefined" || typeof CATEGORIAS === "undefined") {
       console.error("No se encontraron los datos de leyes (data/leyes.js).");
-      return;
+    } else {
+      const leyesPorCategoria = agruparPorCategoria(LEYES);
+      renderResumenLeyes(LEYES);
+      renderNav(CATEGORIAS, leyesPorCategoria);
+      renderContenidoLeyes(CATEGORIAS, leyesPorCategoria);
+      activarNavAlScroll(CATEGORIAS);
     }
 
-    const leyesPorCategoria = agruparPorCategoria(LEYES);
+    if (typeof HEURISTICAS === "undefined") {
+      console.error("No se encontraron los datos de heurísticas (data/heuristicas.js).");
+    } else {
+      renderResumenHeuristicas(HEURISTICAS);
+      renderContenidoHeuristicas(HEURISTICAS);
+    }
 
-    renderResumen(LEYES);
-    renderNav(CATEGORIAS, leyesPorCategoria);
-    renderContenido(CATEGORIAS, leyesPorCategoria);
-    activarNavAlScroll(CATEGORIAS);
+    initTabs();
   }
 
   document.addEventListener("DOMContentLoaded", init);

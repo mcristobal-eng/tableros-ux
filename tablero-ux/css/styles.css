@@ -19,12 +19,23 @@
   --color-pendiente-text: #5b6270;
   --color-pendiente-dot: #9aa1ac;
 
+  --color-sev1-bg: #fdf6e3;
+  --color-sev1-text: #8a6d1d;
+  --color-sev1-dot: #d8c93a;
+
+  --color-sev2-bg: #fdf0e0;
+  --color-sev2-text: #96591a;
+  --color-sev2-dot: #e6a819;
+
+  --color-sev3-bg: #fde8da;
+  --color-sev3-text: #a34e14;
+  --color-sev3-dot: #e07a1f;
+
   --radius-sm: 6px;
   --radius-md: 12px;
   --radius-lg: 16px;
 
   --sidebar-width: 260px;
-  --header-height: auto;
 
   font-size: 16px;
 }
@@ -47,6 +58,10 @@ body {
 
 a {
   color: inherit;
+}
+
+[hidden] {
+  display: none !important;
 }
 
 /* ---------- Header ---------- */
@@ -99,6 +114,36 @@ a {
   text-decoration: underline;
 }
 
+/* ---------- Tabs ---------- */
+
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+.tabs__btn {
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.tabs__btn:hover {
+  color: var(--color-accent-dark);
+}
+
+.tabs__btn.is-active {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+}
+
 .site-header__summary {
   display: flex;
   gap: 0.75rem;
@@ -128,6 +173,12 @@ a {
 .summary-pill[data-estado="cumple"] .summary-pill__dot { background: var(--color-cumple-dot); }
 .summary-pill[data-estado="rompe"] .summary-pill__dot { background: var(--color-rompe-dot); }
 
+.summary-pill[data-severidad="0"] .summary-pill__dot { background: var(--color-cumple-dot); }
+.summary-pill[data-severidad="1"] .summary-pill__dot { background: var(--color-sev1-dot); }
+.summary-pill[data-severidad="2"] .summary-pill__dot { background: var(--color-sev2-dot); }
+.summary-pill[data-severidad="3"] .summary-pill__dot { background: var(--color-sev3-dot); }
+.summary-pill[data-severidad="4"] .summary-pill__dot { background: var(--color-rompe-dot); }
+
 /* ---------- Layout ---------- */
 
 .layout {
@@ -137,6 +188,10 @@ a {
   align-items: flex-start;
   gap: 2rem;
   padding: 1.5rem;
+}
+
+.layout--full {
+  display: block;
 }
 
 /* ---------- Nav lateral ---------- */
@@ -230,13 +285,13 @@ a {
   font-size: 0.85rem;
 }
 
-.leyes-grid {
+.tarjetas-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 1.25rem;
 }
 
-/* ---------- Card de ley ---------- */
+/* ---------- Card de ley / heurística ---------- */
 
 .ley-card {
   background: var(--color-surface);
@@ -298,6 +353,42 @@ a {
   color: var(--color-pendiente-text);
 }
 .badge[data-estado="pendiente"] .badge__dot { background: var(--color-pendiente-dot); }
+
+.badge[data-severidad="pendiente"] {
+  background: var(--color-pendiente-bg);
+  color: var(--color-pendiente-text);
+}
+.badge[data-severidad="pendiente"] .badge__dot { background: var(--color-pendiente-dot); }
+
+.badge[data-severidad="0"] {
+  background: var(--color-cumple-bg);
+  color: var(--color-cumple-text);
+}
+.badge[data-severidad="0"] .badge__dot { background: var(--color-cumple-dot); }
+
+.badge[data-severidad="1"] {
+  background: var(--color-sev1-bg);
+  color: var(--color-sev1-text);
+}
+.badge[data-severidad="1"] .badge__dot { background: var(--color-sev1-dot); }
+
+.badge[data-severidad="2"] {
+  background: var(--color-sev2-bg);
+  color: var(--color-sev2-text);
+}
+.badge[data-severidad="2"] .badge__dot { background: var(--color-sev2-dot); }
+
+.badge[data-severidad="3"] {
+  background: var(--color-sev3-bg);
+  color: var(--color-sev3-text);
+}
+.badge[data-severidad="3"] .badge__dot { background: var(--color-sev3-dot); }
+
+.badge[data-severidad="4"] {
+  background: var(--color-rompe-bg);
+  color: var(--color-rompe-text);
+}
+.badge[data-severidad="4"] .badge__dot { background: var(--color-rompe-dot); }
 
 .ley-card__que-dice {
   margin: 0;
@@ -418,12 +509,17 @@ a {
     padding: 1.25rem 1rem;
   }
 
+  .tabs__btn {
+    font-size: 0.82rem;
+    padding: 0.45rem 0.8rem;
+  }
+
   .layout {
     padding: 1rem;
     gap: 1.25rem;
   }
 
-  .leyes-grid {
+  .tarjetas-grid {
     grid-template-columns: 1fr;
   }
 }
